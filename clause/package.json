@@ -1,0 +1,25 @@
+{
+    "name": "@clausehq/hlf-client",
+    "version": "1.0.0",
+    "description": "Deploy Clause chaincode to Hyperledger Fabric",
+    "main": "hlf-client.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@accordproject/cicero-core": "^0.7.1",
+        "@clausehq/clause-core": "^0.0.71",
+        "fabric-ca-client": "~1.2.0",
+        "fabric-client": "~1.2.0",
+        "grpc": "^1.6.0"
+    },
+    "author": "Clause HQ",
+    "license": "Apache-2.0",
+    "keywords": [
+        "Hyperledger",
+        "Fabric",
+        "Clause",
+        "CLI",
+        "Smart Legal Contracts"
+    ]
+}

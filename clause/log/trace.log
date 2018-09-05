@@ -1,0 +1,2312 @@
+11:32:57 - [34mdebug[39m: constructor
+11:32:57 - [34mdebug[39m: constructor
+11:32:57 - [34mdebug[39m: constructor
+11:32:57 - [34mdebug[39m: Loading archive at: https://templates.accordproject.org/archives/helloworld@0.2.1.cta
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:57 - [34mdebug[39m: constructor
+11:32:57 - [34mdebug[39m: constructor
+11:32:57 - [34mdebug[39m: fromArchive
+11:32:58 - [34mdebug[39m: fromArchive
+11:32:58 - [34mdebug[39m: fromArchive
+11:32:58 - [34mdebug[39m: fromArchive
+11:32:58 - [34mdebug[39m: fromArchive
+11:32:58 - [34mdebug[39m: buildGrammar
+11:32:58 - [34mdebug[39m: Template AST {"type":"ContractTemplate","data":[{"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1},{"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}},{"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}]}
+11:32:58 - [34mdebug[39m: element rule0 {"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1}
+11:32:58 - [34mdebug[39m: element rule1 {"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}}
+11:32:58 - [34mdebug[39m: element rule2 {"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}
+11:32:58 - [34mdebug[39m: Generated template grammar# Dynamically Generated
+@builtin "number.ne"
+@builtin "string.ne"
+@builtin "whitespace.ne"
+@{%
+    function compact(v) {
+        if (Array.isArray(v)) {
+            return v.reduce((a, v) => (v === null || v === undefined || (v && v.length === 0) ) ? a : (a.push(v), a), []);
+        } else {
+            return v;
+        }
+    }
+
+    function flatten(v) {
+        let r;
+        if (Array.isArray(v)) {
+            r = v.reduce((a,v) => (a.push(...((v && Array.isArray(v)) ? flatten(v) : [v])), a), []);
+        } else {
+            r = v;
+        }
+        r = compact(r);
+        return r;
+        }
+%}
+
+
+rule -> rule0 rule1 rule2 
+{% ([ rule0,rule1,rule2 ]) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        clauseId : "a606d029-64d3-4487-b128-3a6ad35efcee",
+        name : rule1,
+    };
+}
+%}
+
+ROOT -> rule0 
+{% ([ rule0 ]) => {
+    return {
+        
+        
+    };
+}
+%}
+
+
+
+rule0 -> "Name of the person to greet: " 
+
+
+rule1 -> String {% id %} # name 
+
+
+rule2 -> ".\nThank you!" 
+
+
+MyRequest -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyRequest",
+        input : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+MyResponse -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyResponse",
+        output : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+HelloWorldClause -> String  __  String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        name : data[0],
+        clauseId : data[2]
+    };
+}
+%}
+
+
+AccordContractState -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordContractState",
+        stateId : data[0]
+    };
+}
+%}
+
+
+AccordParty -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordParty",
+        partyId : data[0]
+    };
+}
+%}
+
+
+Request -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Request",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+Response -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Response",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+PaymentObligation -> MonetaryAmount  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.PaymentObligation",
+        amount : data[0],
+        description : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+NotificationObligation -> String  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.NotificationObligation",
+        title : data[0],
+        message : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+Payload -> AccordContract  __  Request  __  AccordContractState:? 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Payload",
+        contract : data[0],
+        request : data[2],
+        state : data[4]
+    };
+}
+%}
+
+
+Success -> Response  __  AccordContractState  __  Event:+ 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Success",
+        response : data[0],
+        state : data[2],
+        emit : data[4]
+    };
+}
+%}
+
+
+Failure -> ErrorResponse 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Failure",
+        error : data[0]
+    };
+}
+%}
+
+
+MonetaryAmount -> Double  __  CurrencyCode 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.money.MonetaryAmount",
+        doubleValue : data[0],
+        currencyCode : data[2]
+    };
+}
+%}
+
+
+CurrencyCode -> "AED" {% id %} | "AFN" {% id %} | "ALL" {% id %} | "AMD" {% id %} | "ANG" {% id %} | "AOA" {% id %} | "ARS" {% id %} | "AUD" {% id %} | "AWG" {% id %} | "AZN" {% id %} | "BAM" {% id %} | "BBD" {% id %} | "BDT" {% id %} | "BGN" {% id %} | "BHD" {% id %} | "BIF" {% id %} | "BMD" {% id %} | "BND" {% id %} | "BOB" {% id %} | "BOV" {% id %} | "BRL" {% id %} | "BSD" {% id %} | "BTN" {% id %} | "BWP" {% id %} | "BYN" {% id %} | "BZD" {% id %} | "CAD" {% id %} | "CDF" {% id %} | "CHE" {% id %} | "CHF" {% id %} | "CHW" {% id %} | "CLF" {% id %} | "CLP" {% id %} | "CNY" {% id %} | "COP" {% id %} | "COU" {% id %} | "CRC" {% id %} | "CUC" {% id %} | "CUP" {% id %} | "CVE" {% id %} | "CZK" {% id %} | "DJF" {% id %} | "DKK" {% id %} | "DOP" {% id %} | "DZD" {% id %} | "EGP" {% id %} | "ERN" {% id %} | "ETB" {% id %} | "EUR" {% id %} | "FJD" {% id %} | "FKP" {% id %} | "GBP" {% id %} | "GEL" {% id %} | "GHS" {% id %} | "GIP" {% id %} | "GMD" {% id %} | "GNF" {% id %} | "GTQ" {% id %} | "GYD" {% id %} | "HKD" {% id %} | "HNL" {% id %} | "HRK" {% id %} | "HTG" {% id %} | "HUF" {% id %} | "IDR" {% id %} | "ILS" {% id %} | "INR" {% id %} | "IQD" {% id %} | "IRR" {% id %} | "ISK" {% id %} | "JMD" {% id %} | "JOD" {% id %} | "JPY" {% id %} | "KES" {% id %} | "KGS" {% id %} | "KHR" {% id %} | "KMF" {% id %} | "KPW" {% id %} | "KRW" {% id %} | "KWD" {% id %} | "KYD" {% id %} | "KZT" {% id %} | "LAK" {% id %} | "LBP" {% id %} | "LKR" {% id %} | "LRD" {% id %} | "LSL" {% id %} | "LYD" {% id %} | "MAD" {% id %} | "MDL" {% id %} | "MGA" {% id %} | "MKD" {% id %} | "MMK" {% id %} | "MNT" {% id %} | "MOP" {% id %} | "MRU" {% id %} | "MUR" {% id %} | "MVR" {% id %} | "MWK" {% id %} | "MXN" {% id %} | "MXV" {% id %} | "MYR" {% id %} | "MZN" {% id %} | "NAD" {% id %} | "NGN" {% id %} | "NIO" {% id %} | "NOK" {% id %} | "NPR" {% id %} | "NZD" {% id %} | "OMR" {% id %} | "PAB" {% id %} | "PEN" {% id %} | "PGK" {% id %} | "PHP" {% id %} | "PKR" {% id %} | "PLN" {% id %} | "PYG" {% id %} | "QAR" {% id %} | "RON" {% id %} | "RSD" {% id %} | "RUB" {% id %} | "RWF" {% id %} | "SAR" {% id %} | "SBD" {% id %} | "SCR" {% id %} | "SDG" {% id %} | "SEK" {% id %} | "SGD" {% id %} | "SHP" {% id %} | "SLL" {% id %} | "SOS" {% id %} | "SRD" {% id %} | "SSP" {% id %} | "STN" {% id %} | "SVC" {% id %} | "SYP" {% id %} | "SZL" {% id %} | "THB" {% id %} | "TJS" {% id %} | "TMT" {% id %} | "TND" {% id %} | "TOP" {% id %} | "TRY" {% id %} | "TTD" {% id %} | "TWD" {% id %} | "TZS" {% id %} | "UAH" {% id %} | "UGX" {% id %} | "USD" {% id %} | "USN" {% id %} | "UYI" {% id %} | "UYU" {% id %} | "UZS" {% id %} | "VEF" {% id %} | "VND" {% id %} | "VUV" {% id %} | "WST" {% id %} | "XAF" {% id %} | "XAG" {% id %} | "XAU" {% id %} | "XBA" {% id %} | "XBB" {% id %} | "XBC" {% id %} | "XBD" {% id %} | "XCD" {% id %} | "XDR" {% id %} | "XOF" {% id %} | "XPD" {% id %} | "XPF" {% id %} | "XPT" {% id %} | "XSU" {% id %} | "XTS" {% id %} | "XUA" {% id %} | "XXX" {% id %} | "YER" {% id %} | "ZAR" {% id %} | "ZMW" {% id %} | "ZWL" {% id %} 
+
+
+
+# Basic types
+NUMBER -> [0-9] 
+{% (d) => {return parseInt(d[0]);}%}
+
+DOUBLE_NUMBER -> NUMBER NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+MONTH -> DOUBLE_NUMBER
+DAY -> DOUBLE_NUMBER
+YEAR -> DOUBLE_NUMBER DOUBLE_NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+DATE -> MONTH "/" DAY "/" YEAR
+{% (d) => {return '' + d[4] + '-' + d[0] + '-' + d[2]}%}
+
+Word -> [\S]:*
+{% (d) => {return d[0].join('');}%}
+
+BRACKET_PHRASE -> "[" Word (__ Word):* "]" {% ((d) => {return d[1] + ' ' + flatten(d[2]).join(" ");}) %}
+
+String -> dqstring {% id %}
+Double -> decimal {% id %}
+Integer -> int {% id %}
+Long -> int {% id %}
+Boolean -> "true" {% id %} | "false" {% id %}
+DateTime -> DATE  {% id %}
+11:32:58 - [34mdebug[39m: fromArchive
+12:08:04 - [34mdebug[39m: constructor
+12:08:04 - [34mdebug[39m: constructor
+12:08:04 - [34mdebug[39m: constructor
+12:08:04 - [34mdebug[39m: Loading archive at: https://templates.accordproject.org/archives/helloworld@0.2.1.cta
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: constructor
+12:08:05 - [34mdebug[39m: constructor
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: fromArchive
+12:08:05 - [34mdebug[39m: buildGrammar
+12:08:05 - [34mdebug[39m: Template AST {"type":"ContractTemplate","data":[{"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1},{"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}},{"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}]}
+12:08:05 - [34mdebug[39m: element rule0 {"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1}
+12:08:05 - [34mdebug[39m: element rule1 {"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}}
+12:08:05 - [34mdebug[39m: element rule2 {"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}
+12:08:05 - [34mdebug[39m: Generated template grammar# Dynamically Generated
+@builtin "number.ne"
+@builtin "string.ne"
+@builtin "whitespace.ne"
+@{%
+    function compact(v) {
+        if (Array.isArray(v)) {
+            return v.reduce((a, v) => (v === null || v === undefined || (v && v.length === 0) ) ? a : (a.push(v), a), []);
+        } else {
+            return v;
+        }
+    }
+
+    function flatten(v) {
+        let r;
+        if (Array.isArray(v)) {
+            r = v.reduce((a,v) => (a.push(...((v && Array.isArray(v)) ? flatten(v) : [v])), a), []);
+        } else {
+            r = v;
+        }
+        r = compact(r);
+        return r;
+        }
+%}
+
+
+rule -> rule0 rule1 rule2 
+{% ([ rule0,rule1,rule2 ]) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        clauseId : "e65631b8-f91b-48c1-8234-5f43bc98502d",
+        name : rule1,
+    };
+}
+%}
+
+ROOT -> rule0 
+{% ([ rule0 ]) => {
+    return {
+        
+        
+    };
+}
+%}
+
+
+
+rule0 -> "Name of the person to greet: " 
+
+
+rule1 -> String {% id %} # name 
+
+
+rule2 -> ".\nThank you!" 
+
+
+MyRequest -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyRequest",
+        input : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+MyResponse -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyResponse",
+        output : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+HelloWorldClause -> String  __  String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        name : data[0],
+        clauseId : data[2]
+    };
+}
+%}
+
+
+AccordContractState -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordContractState",
+        stateId : data[0]
+    };
+}
+%}
+
+
+AccordParty -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordParty",
+        partyId : data[0]
+    };
+}
+%}
+
+
+Request -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Request",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+Response -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Response",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+PaymentObligation -> MonetaryAmount  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.PaymentObligation",
+        amount : data[0],
+        description : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+NotificationObligation -> String  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.NotificationObligation",
+        title : data[0],
+        message : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+Payload -> AccordContract  __  Request  __  AccordContractState:? 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Payload",
+        contract : data[0],
+        request : data[2],
+        state : data[4]
+    };
+}
+%}
+
+
+Success -> Response  __  AccordContractState  __  Event:+ 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Success",
+        response : data[0],
+        state : data[2],
+        emit : data[4]
+    };
+}
+%}
+
+
+Failure -> ErrorResponse 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Failure",
+        error : data[0]
+    };
+}
+%}
+
+
+MonetaryAmount -> Double  __  CurrencyCode 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.money.MonetaryAmount",
+        doubleValue : data[0],
+        currencyCode : data[2]
+    };
+}
+%}
+
+
+CurrencyCode -> "AED" {% id %} | "AFN" {% id %} | "ALL" {% id %} | "AMD" {% id %} | "ANG" {% id %} | "AOA" {% id %} | "ARS" {% id %} | "AUD" {% id %} | "AWG" {% id %} | "AZN" {% id %} | "BAM" {% id %} | "BBD" {% id %} | "BDT" {% id %} | "BGN" {% id %} | "BHD" {% id %} | "BIF" {% id %} | "BMD" {% id %} | "BND" {% id %} | "BOB" {% id %} | "BOV" {% id %} | "BRL" {% id %} | "BSD" {% id %} | "BTN" {% id %} | "BWP" {% id %} | "BYN" {% id %} | "BZD" {% id %} | "CAD" {% id %} | "CDF" {% id %} | "CHE" {% id %} | "CHF" {% id %} | "CHW" {% id %} | "CLF" {% id %} | "CLP" {% id %} | "CNY" {% id %} | "COP" {% id %} | "COU" {% id %} | "CRC" {% id %} | "CUC" {% id %} | "CUP" {% id %} | "CVE" {% id %} | "CZK" {% id %} | "DJF" {% id %} | "DKK" {% id %} | "DOP" {% id %} | "DZD" {% id %} | "EGP" {% id %} | "ERN" {% id %} | "ETB" {% id %} | "EUR" {% id %} | "FJD" {% id %} | "FKP" {% id %} | "GBP" {% id %} | "GEL" {% id %} | "GHS" {% id %} | "GIP" {% id %} | "GMD" {% id %} | "GNF" {% id %} | "GTQ" {% id %} | "GYD" {% id %} | "HKD" {% id %} | "HNL" {% id %} | "HRK" {% id %} | "HTG" {% id %} | "HUF" {% id %} | "IDR" {% id %} | "ILS" {% id %} | "INR" {% id %} | "IQD" {% id %} | "IRR" {% id %} | "ISK" {% id %} | "JMD" {% id %} | "JOD" {% id %} | "JPY" {% id %} | "KES" {% id %} | "KGS" {% id %} | "KHR" {% id %} | "KMF" {% id %} | "KPW" {% id %} | "KRW" {% id %} | "KWD" {% id %} | "KYD" {% id %} | "KZT" {% id %} | "LAK" {% id %} | "LBP" {% id %} | "LKR" {% id %} | "LRD" {% id %} | "LSL" {% id %} | "LYD" {% id %} | "MAD" {% id %} | "MDL" {% id %} | "MGA" {% id %} | "MKD" {% id %} | "MMK" {% id %} | "MNT" {% id %} | "MOP" {% id %} | "MRU" {% id %} | "MUR" {% id %} | "MVR" {% id %} | "MWK" {% id %} | "MXN" {% id %} | "MXV" {% id %} | "MYR" {% id %} | "MZN" {% id %} | "NAD" {% id %} | "NGN" {% id %} | "NIO" {% id %} | "NOK" {% id %} | "NPR" {% id %} | "NZD" {% id %} | "OMR" {% id %} | "PAB" {% id %} | "PEN" {% id %} | "PGK" {% id %} | "PHP" {% id %} | "PKR" {% id %} | "PLN" {% id %} | "PYG" {% id %} | "QAR" {% id %} | "RON" {% id %} | "RSD" {% id %} | "RUB" {% id %} | "RWF" {% id %} | "SAR" {% id %} | "SBD" {% id %} | "SCR" {% id %} | "SDG" {% id %} | "SEK" {% id %} | "SGD" {% id %} | "SHP" {% id %} | "SLL" {% id %} | "SOS" {% id %} | "SRD" {% id %} | "SSP" {% id %} | "STN" {% id %} | "SVC" {% id %} | "SYP" {% id %} | "SZL" {% id %} | "THB" {% id %} | "TJS" {% id %} | "TMT" {% id %} | "TND" {% id %} | "TOP" {% id %} | "TRY" {% id %} | "TTD" {% id %} | "TWD" {% id %} | "TZS" {% id %} | "UAH" {% id %} | "UGX" {% id %} | "USD" {% id %} | "USN" {% id %} | "UYI" {% id %} | "UYU" {% id %} | "UZS" {% id %} | "VEF" {% id %} | "VND" {% id %} | "VUV" {% id %} | "WST" {% id %} | "XAF" {% id %} | "XAG" {% id %} | "XAU" {% id %} | "XBA" {% id %} | "XBB" {% id %} | "XBC" {% id %} | "XBD" {% id %} | "XCD" {% id %} | "XDR" {% id %} | "XOF" {% id %} | "XPD" {% id %} | "XPF" {% id %} | "XPT" {% id %} | "XSU" {% id %} | "XTS" {% id %} | "XUA" {% id %} | "XXX" {% id %} | "YER" {% id %} | "ZAR" {% id %} | "ZMW" {% id %} | "ZWL" {% id %} 
+
+
+
+# Basic types
+NUMBER -> [0-9] 
+{% (d) => {return parseInt(d[0]);}%}
+
+DOUBLE_NUMBER -> NUMBER NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+MONTH -> DOUBLE_NUMBER
+DAY -> DOUBLE_NUMBER
+YEAR -> DOUBLE_NUMBER DOUBLE_NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+DATE -> MONTH "/" DAY "/" YEAR
+{% (d) => {return '' + d[4] + '-' + d[0] + '-' + d[2]}%}
+
+Word -> [\S]:*
+{% (d) => {return d[0].join('');}%}
+
+BRACKET_PHRASE -> "[" Word (__ Word):* "]" {% ((d) => {return d[1] + ' ' + flatten(d[2]).join(" ");}) %}
+
+String -> dqstring {% id %}
+Double -> decimal {% id %}
+Integer -> int {% id %}
+Long -> int {% id %}
+Boolean -> "true" {% id %} | "false" {% id %}
+DateTime -> DATE  {% id %}
+12:08:06 - [34mdebug[39m: fromArchive
+12:08:06 - [34mdebug[39m: Result of parsing: {"$class":"org.accordproject.helloworld.HelloWorldClause","clauseId":"e65631b8-f91b-48c1-8234-5f43bc98502d","name":"Fred Blogs"}
+12:08:06 - [34mdebug[39m: Setting clause data: {"$class":"org.accordproject.helloworld.HelloWorldClause","clauseId":"e65631b8-f91b-48c1-8234-5f43bc98502d","name":"Fred Blogs"}
+12:13:19 - [34mdebug[39m: constructor
+12:13:19 - [34mdebug[39m: constructor
+12:13:19 - [34mdebug[39m: constructor
+12:13:19 - [34mdebug[39m: Loading archive at: https://templates.accordproject.org/archives/helloworld@0.2.1.cta
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: constructor
+12:13:19 - [34mdebug[39m: constructor
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:19 - [34mdebug[39m: fromArchive
+12:13:20 - [34mdebug[39m: fromArchive
+12:13:20 - [34mdebug[39m: fromArchive
+12:13:20 - [34mdebug[39m: buildGrammar
+12:13:20 - [34mdebug[39m: Template AST {"type":"ContractTemplate","data":[{"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1},{"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}},{"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}]}
+12:13:20 - [34mdebug[39m: element rule0 {"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1}
+12:13:20 - [34mdebug[39m: element rule1 {"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}}
+12:13:20 - [34mdebug[39m: element rule2 {"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}
+12:13:20 - [34mdebug[39m: Generated template grammar# Dynamically Generated
+@builtin "number.ne"
+@builtin "string.ne"
+@builtin "whitespace.ne"
+@{%
+    function compact(v) {
+        if (Array.isArray(v)) {
+            return v.reduce((a, v) => (v === null || v === undefined || (v && v.length === 0) ) ? a : (a.push(v), a), []);
+        } else {
+            return v;
+        }
+    }
+
+    function flatten(v) {
+        let r;
+        if (Array.isArray(v)) {
+            r = v.reduce((a,v) => (a.push(...((v && Array.isArray(v)) ? flatten(v) : [v])), a), []);
+        } else {
+            r = v;
+        }
+        r = compact(r);
+        return r;
+        }
+%}
+
+
+rule -> rule0 rule1 rule2 
+{% ([ rule0,rule1,rule2 ]) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        clauseId : "07315ced-cf0e-422d-b049-af0ee3f8ed8f",
+        name : rule1,
+    };
+}
+%}
+
+ROOT -> rule0 
+{% ([ rule0 ]) => {
+    return {
+        
+        
+    };
+}
+%}
+
+
+
+rule0 -> "Name of the person to greet: " 
+
+
+rule1 -> String {% id %} # name 
+
+
+rule2 -> ".\nThank you!" 
+
+
+MyRequest -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyRequest",
+        input : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+MyResponse -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyResponse",
+        output : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+HelloWorldClause -> String  __  String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        name : data[0],
+        clauseId : data[2]
+    };
+}
+%}
+
+
+AccordContractState -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordContractState",
+        stateId : data[0]
+    };
+}
+%}
+
+
+AccordParty -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordParty",
+        partyId : data[0]
+    };
+}
+%}
+
+
+Request -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Request",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+Response -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Response",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+PaymentObligation -> MonetaryAmount  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.PaymentObligation",
+        amount : data[0],
+        description : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+NotificationObligation -> String  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.NotificationObligation",
+        title : data[0],
+        message : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+Payload -> AccordContract  __  Request  __  AccordContractState:? 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Payload",
+        contract : data[0],
+        request : data[2],
+        state : data[4]
+    };
+}
+%}
+
+
+Success -> Response  __  AccordContractState  __  Event:+ 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Success",
+        response : data[0],
+        state : data[2],
+        emit : data[4]
+    };
+}
+%}
+
+
+Failure -> ErrorResponse 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Failure",
+        error : data[0]
+    };
+}
+%}
+
+
+MonetaryAmount -> Double  __  CurrencyCode 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.money.MonetaryAmount",
+        doubleValue : data[0],
+        currencyCode : data[2]
+    };
+}
+%}
+
+
+CurrencyCode -> "AED" {% id %} | "AFN" {% id %} | "ALL" {% id %} | "AMD" {% id %} | "ANG" {% id %} | "AOA" {% id %} | "ARS" {% id %} | "AUD" {% id %} | "AWG" {% id %} | "AZN" {% id %} | "BAM" {% id %} | "BBD" {% id %} | "BDT" {% id %} | "BGN" {% id %} | "BHD" {% id %} | "BIF" {% id %} | "BMD" {% id %} | "BND" {% id %} | "BOB" {% id %} | "BOV" {% id %} | "BRL" {% id %} | "BSD" {% id %} | "BTN" {% id %} | "BWP" {% id %} | "BYN" {% id %} | "BZD" {% id %} | "CAD" {% id %} | "CDF" {% id %} | "CHE" {% id %} | "CHF" {% id %} | "CHW" {% id %} | "CLF" {% id %} | "CLP" {% id %} | "CNY" {% id %} | "COP" {% id %} | "COU" {% id %} | "CRC" {% id %} | "CUC" {% id %} | "CUP" {% id %} | "CVE" {% id %} | "CZK" {% id %} | "DJF" {% id %} | "DKK" {% id %} | "DOP" {% id %} | "DZD" {% id %} | "EGP" {% id %} | "ERN" {% id %} | "ETB" {% id %} | "EUR" {% id %} | "FJD" {% id %} | "FKP" {% id %} | "GBP" {% id %} | "GEL" {% id %} | "GHS" {% id %} | "GIP" {% id %} | "GMD" {% id %} | "GNF" {% id %} | "GTQ" {% id %} | "GYD" {% id %} | "HKD" {% id %} | "HNL" {% id %} | "HRK" {% id %} | "HTG" {% id %} | "HUF" {% id %} | "IDR" {% id %} | "ILS" {% id %} | "INR" {% id %} | "IQD" {% id %} | "IRR" {% id %} | "ISK" {% id %} | "JMD" {% id %} | "JOD" {% id %} | "JPY" {% id %} | "KES" {% id %} | "KGS" {% id %} | "KHR" {% id %} | "KMF" {% id %} | "KPW" {% id %} | "KRW" {% id %} | "KWD" {% id %} | "KYD" {% id %} | "KZT" {% id %} | "LAK" {% id %} | "LBP" {% id %} | "LKR" {% id %} | "LRD" {% id %} | "LSL" {% id %} | "LYD" {% id %} | "MAD" {% id %} | "MDL" {% id %} | "MGA" {% id %} | "MKD" {% id %} | "MMK" {% id %} | "MNT" {% id %} | "MOP" {% id %} | "MRU" {% id %} | "MUR" {% id %} | "MVR" {% id %} | "MWK" {% id %} | "MXN" {% id %} | "MXV" {% id %} | "MYR" {% id %} | "MZN" {% id %} | "NAD" {% id %} | "NGN" {% id %} | "NIO" {% id %} | "NOK" {% id %} | "NPR" {% id %} | "NZD" {% id %} | "OMR" {% id %} | "PAB" {% id %} | "PEN" {% id %} | "PGK" {% id %} | "PHP" {% id %} | "PKR" {% id %} | "PLN" {% id %} | "PYG" {% id %} | "QAR" {% id %} | "RON" {% id %} | "RSD" {% id %} | "RUB" {% id %} | "RWF" {% id %} | "SAR" {% id %} | "SBD" {% id %} | "SCR" {% id %} | "SDG" {% id %} | "SEK" {% id %} | "SGD" {% id %} | "SHP" {% id %} | "SLL" {% id %} | "SOS" {% id %} | "SRD" {% id %} | "SSP" {% id %} | "STN" {% id %} | "SVC" {% id %} | "SYP" {% id %} | "SZL" {% id %} | "THB" {% id %} | "TJS" {% id %} | "TMT" {% id %} | "TND" {% id %} | "TOP" {% id %} | "TRY" {% id %} | "TTD" {% id %} | "TWD" {% id %} | "TZS" {% id %} | "UAH" {% id %} | "UGX" {% id %} | "USD" {% id %} | "USN" {% id %} | "UYI" {% id %} | "UYU" {% id %} | "UZS" {% id %} | "VEF" {% id %} | "VND" {% id %} | "VUV" {% id %} | "WST" {% id %} | "XAF" {% id %} | "XAG" {% id %} | "XAU" {% id %} | "XBA" {% id %} | "XBB" {% id %} | "XBC" {% id %} | "XBD" {% id %} | "XCD" {% id %} | "XDR" {% id %} | "XOF" {% id %} | "XPD" {% id %} | "XPF" {% id %} | "XPT" {% id %} | "XSU" {% id %} | "XTS" {% id %} | "XUA" {% id %} | "XXX" {% id %} | "YER" {% id %} | "ZAR" {% id %} | "ZMW" {% id %} | "ZWL" {% id %} 
+
+
+
+# Basic types
+NUMBER -> [0-9] 
+{% (d) => {return parseInt(d[0]);}%}
+
+DOUBLE_NUMBER -> NUMBER NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+MONTH -> DOUBLE_NUMBER
+DAY -> DOUBLE_NUMBER
+YEAR -> DOUBLE_NUMBER DOUBLE_NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+DATE -> MONTH "/" DAY "/" YEAR
+{% (d) => {return '' + d[4] + '-' + d[0] + '-' + d[2]}%}
+
+Word -> [\S]:*
+{% (d) => {return d[0].join('');}%}
+
+BRACKET_PHRASE -> "[" Word (__ Word):* "]" {% ((d) => {return d[1] + ' ' + flatten(d[2]).join(" ");}) %}
+
+String -> dqstring {% id %}
+Double -> decimal {% id %}
+Integer -> int {% id %}
+Long -> int {% id %}
+Boolean -> "true" {% id %} | "false" {% id %}
+DateTime -> DATE  {% id %}
+12:13:20 - [34mdebug[39m: fromArchive
+12:13:20 - [34mdebug[39m: Result of parsing: {"$class":"org.accordproject.helloworld.HelloWorldClause","clauseId":"07315ced-cf0e-422d-b049-af0ee3f8ed8f","name":"Fred Blogs"}
+12:13:20 - [34mdebug[39m: Setting clause data: {"$class":"org.accordproject.helloworld.HelloWorldClause","clauseId":"07315ced-cf0e-422d-b049-af0ee3f8ed8f","name":"Fred Blogs"}
+12:19:37 - [34mdebug[39m: constructor
+12:19:37 - [34mdebug[39m: constructor
+12:19:37 - [34mdebug[39m: constructor
+12:19:37 - [34mdebug[39m: Loading archive at: https://templates.accordproject.org/archives/helloworld@0.2.1.cta
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:37 - [34mdebug[39m: constructor
+12:19:37 - [34mdebug[39m: constructor
+12:19:37 - [34mdebug[39m: fromArchive
+12:19:38 - [34mdebug[39m: fromArchive
+12:19:38 - [34mdebug[39m: fromArchive
+12:19:38 - [34mdebug[39m: fromArchive
+12:19:38 - [34mdebug[39m: fromArchive
+12:19:38 - [34mdebug[39m: buildGrammar
+12:19:38 - [34mdebug[39m: Template AST {"type":"ContractTemplate","data":[{"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1},{"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}},{"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}]}
+12:19:38 - [34mdebug[39m: element rule0 {"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1}
+12:19:38 - [34mdebug[39m: element rule1 {"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}}
+12:19:38 - [34mdebug[39m: element rule2 {"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}
+12:19:38 - [34mdebug[39m: Generated template grammar# Dynamically Generated
+@builtin "number.ne"
+@builtin "string.ne"
+@builtin "whitespace.ne"
+@{%
+    function compact(v) {
+        if (Array.isArray(v)) {
+            return v.reduce((a, v) => (v === null || v === undefined || (v && v.length === 0) ) ? a : (a.push(v), a), []);
+        } else {
+            return v;
+        }
+    }
+
+    function flatten(v) {
+        let r;
+        if (Array.isArray(v)) {
+            r = v.reduce((a,v) => (a.push(...((v && Array.isArray(v)) ? flatten(v) : [v])), a), []);
+        } else {
+            r = v;
+        }
+        r = compact(r);
+        return r;
+        }
+%}
+
+
+rule -> rule0 rule1 rule2 
+{% ([ rule0,rule1,rule2 ]) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        clauseId : "e8758e72-a006-4de3-8bf2-c34bec4b59a0",
+        name : rule1,
+    };
+}
+%}
+
+ROOT -> rule0 
+{% ([ rule0 ]) => {
+    return {
+        
+        
+    };
+}
+%}
+
+
+
+rule0 -> "Name of the person to greet: " 
+
+
+rule1 -> String {% id %} # name 
+
+
+rule2 -> ".\nThank you!" 
+
+
+MyRequest -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyRequest",
+        input : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+MyResponse -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyResponse",
+        output : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+HelloWorldClause -> String  __  String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        name : data[0],
+        clauseId : data[2]
+    };
+}
+%}
+
+
+AccordContractState -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordContractState",
+        stateId : data[0]
+    };
+}
+%}
+
+
+AccordParty -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordParty",
+        partyId : data[0]
+    };
+}
+%}
+
+
+Request -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Request",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+Response -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Response",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+PaymentObligation -> MonetaryAmount  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.PaymentObligation",
+        amount : data[0],
+        description : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+NotificationObligation -> String  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.NotificationObligation",
+        title : data[0],
+        message : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+Payload -> AccordContract  __  Request  __  AccordContractState:? 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Payload",
+        contract : data[0],
+        request : data[2],
+        state : data[4]
+    };
+}
+%}
+
+
+Success -> Response  __  AccordContractState  __  Event:+ 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Success",
+        response : data[0],
+        state : data[2],
+        emit : data[4]
+    };
+}
+%}
+
+
+Failure -> ErrorResponse 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Failure",
+        error : data[0]
+    };
+}
+%}
+
+
+MonetaryAmount -> Double  __  CurrencyCode 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.money.MonetaryAmount",
+        doubleValue : data[0],
+        currencyCode : data[2]
+    };
+}
+%}
+
+
+CurrencyCode -> "AED" {% id %} | "AFN" {% id %} | "ALL" {% id %} | "AMD" {% id %} | "ANG" {% id %} | "AOA" {% id %} | "ARS" {% id %} | "AUD" {% id %} | "AWG" {% id %} | "AZN" {% id %} | "BAM" {% id %} | "BBD" {% id %} | "BDT" {% id %} | "BGN" {% id %} | "BHD" {% id %} | "BIF" {% id %} | "BMD" {% id %} | "BND" {% id %} | "BOB" {% id %} | "BOV" {% id %} | "BRL" {% id %} | "BSD" {% id %} | "BTN" {% id %} | "BWP" {% id %} | "BYN" {% id %} | "BZD" {% id %} | "CAD" {% id %} | "CDF" {% id %} | "CHE" {% id %} | "CHF" {% id %} | "CHW" {% id %} | "CLF" {% id %} | "CLP" {% id %} | "CNY" {% id %} | "COP" {% id %} | "COU" {% id %} | "CRC" {% id %} | "CUC" {% id %} | "CUP" {% id %} | "CVE" {% id %} | "CZK" {% id %} | "DJF" {% id %} | "DKK" {% id %} | "DOP" {% id %} | "DZD" {% id %} | "EGP" {% id %} | "ERN" {% id %} | "ETB" {% id %} | "EUR" {% id %} | "FJD" {% id %} | "FKP" {% id %} | "GBP" {% id %} | "GEL" {% id %} | "GHS" {% id %} | "GIP" {% id %} | "GMD" {% id %} | "GNF" {% id %} | "GTQ" {% id %} | "GYD" {% id %} | "HKD" {% id %} | "HNL" {% id %} | "HRK" {% id %} | "HTG" {% id %} | "HUF" {% id %} | "IDR" {% id %} | "ILS" {% id %} | "INR" {% id %} | "IQD" {% id %} | "IRR" {% id %} | "ISK" {% id %} | "JMD" {% id %} | "JOD" {% id %} | "JPY" {% id %} | "KES" {% id %} | "KGS" {% id %} | "KHR" {% id %} | "KMF" {% id %} | "KPW" {% id %} | "KRW" {% id %} | "KWD" {% id %} | "KYD" {% id %} | "KZT" {% id %} | "LAK" {% id %} | "LBP" {% id %} | "LKR" {% id %} | "LRD" {% id %} | "LSL" {% id %} | "LYD" {% id %} | "MAD" {% id %} | "MDL" {% id %} | "MGA" {% id %} | "MKD" {% id %} | "MMK" {% id %} | "MNT" {% id %} | "MOP" {% id %} | "MRU" {% id %} | "MUR" {% id %} | "MVR" {% id %} | "MWK" {% id %} | "MXN" {% id %} | "MXV" {% id %} | "MYR" {% id %} | "MZN" {% id %} | "NAD" {% id %} | "NGN" {% id %} | "NIO" {% id %} | "NOK" {% id %} | "NPR" {% id %} | "NZD" {% id %} | "OMR" {% id %} | "PAB" {% id %} | "PEN" {% id %} | "PGK" {% id %} | "PHP" {% id %} | "PKR" {% id %} | "PLN" {% id %} | "PYG" {% id %} | "QAR" {% id %} | "RON" {% id %} | "RSD" {% id %} | "RUB" {% id %} | "RWF" {% id %} | "SAR" {% id %} | "SBD" {% id %} | "SCR" {% id %} | "SDG" {% id %} | "SEK" {% id %} | "SGD" {% id %} | "SHP" {% id %} | "SLL" {% id %} | "SOS" {% id %} | "SRD" {% id %} | "SSP" {% id %} | "STN" {% id %} | "SVC" {% id %} | "SYP" {% id %} | "SZL" {% id %} | "THB" {% id %} | "TJS" {% id %} | "TMT" {% id %} | "TND" {% id %} | "TOP" {% id %} | "TRY" {% id %} | "TTD" {% id %} | "TWD" {% id %} | "TZS" {% id %} | "UAH" {% id %} | "UGX" {% id %} | "USD" {% id %} | "USN" {% id %} | "UYI" {% id %} | "UYU" {% id %} | "UZS" {% id %} | "VEF" {% id %} | "VND" {% id %} | "VUV" {% id %} | "WST" {% id %} | "XAF" {% id %} | "XAG" {% id %} | "XAU" {% id %} | "XBA" {% id %} | "XBB" {% id %} | "XBC" {% id %} | "XBD" {% id %} | "XCD" {% id %} | "XDR" {% id %} | "XOF" {% id %} | "XPD" {% id %} | "XPF" {% id %} | "XPT" {% id %} | "XSU" {% id %} | "XTS" {% id %} | "XUA" {% id %} | "XXX" {% id %} | "YER" {% id %} | "ZAR" {% id %} | "ZMW" {% id %} | "ZWL" {% id %} 
+
+
+
+# Basic types
+NUMBER -> [0-9] 
+{% (d) => {return parseInt(d[0]);}%}
+
+DOUBLE_NUMBER -> NUMBER NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+MONTH -> DOUBLE_NUMBER
+DAY -> DOUBLE_NUMBER
+YEAR -> DOUBLE_NUMBER DOUBLE_NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+DATE -> MONTH "/" DAY "/" YEAR
+{% (d) => {return '' + d[4] + '-' + d[0] + '-' + d[2]}%}
+
+Word -> [\S]:*
+{% (d) => {return d[0].join('');}%}
+
+BRACKET_PHRASE -> "[" Word (__ Word):* "]" {% ((d) => {return d[1] + ' ' + flatten(d[2]).join(" ");}) %}
+
+String -> dqstring {% id %}
+Double -> decimal {% id %}
+Integer -> int {% id %}
+Long -> int {% id %}
+Boolean -> "true" {% id %} | "false" {% id %}
+DateTime -> DATE  {% id %}
+12:19:38 - [34mdebug[39m: fromArchive
+12:19:38 - [34mdebug[39m: Result of parsing: {"$class":"org.accordproject.helloworld.HelloWorldClause","clauseId":"e8758e72-a006-4de3-8bf2-c34bec4b59a0","name":"Fred Blogs"}
+12:19:38 - [34mdebug[39m: Setting clause data: {"$class":"org.accordproject.helloworld.HelloWorldClause","clauseId":"e8758e72-a006-4de3-8bf2-c34bec4b59a0","name":"Fred Blogs"}
+12:20:13 - [34mdebug[39m: constructor
+12:20:13 - [34mdebug[39m: constructor
+12:20:13 - [34mdebug[39m: constructor
+12:20:13 - [34mdebug[39m: Loading archive at: https://templates.accordproject.org/archives/helloworld@0.2.1.cta
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:13 - [34mdebug[39m: constructor
+12:20:13 - [34mdebug[39m: constructor
+12:20:13 - [34mdebug[39m: fromArchive
+12:20:14 - [34mdebug[39m: fromArchive
+12:20:14 - [34mdebug[39m: fromArchive
+12:20:14 - [34mdebug[39m: fromArchive
+12:20:14 - [34mdebug[39m: fromArchive
+12:20:14 - [34mdebug[39m: buildGrammar
+12:20:14 - [34mdebug[39m: Template AST {"type":"ContractTemplate","data":[{"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1},{"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}},{"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}]}
+12:20:14 - [34mdebug[39m: element rule0 {"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1}
+12:20:14 - [34mdebug[39m: element rule1 {"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}}
+12:20:14 - [34mdebug[39m: element rule2 {"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}
+12:20:14 - [34mdebug[39m: Generated template grammar# Dynamically Generated
+@builtin "number.ne"
+@builtin "string.ne"
+@builtin "whitespace.ne"
+@{%
+    function compact(v) {
+        if (Array.isArray(v)) {
+            return v.reduce((a, v) => (v === null || v === undefined || (v && v.length === 0) ) ? a : (a.push(v), a), []);
+        } else {
+            return v;
+        }
+    }
+
+    function flatten(v) {
+        let r;
+        if (Array.isArray(v)) {
+            r = v.reduce((a,v) => (a.push(...((v && Array.isArray(v)) ? flatten(v) : [v])), a), []);
+        } else {
+            r = v;
+        }
+        r = compact(r);
+        return r;
+        }
+%}
+
+
+rule -> rule0 rule1 rule2 
+{% ([ rule0,rule1,rule2 ]) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        clauseId : "b064ec7b-0d95-4f05-bea6-b3330eff7a8d",
+        name : rule1,
+    };
+}
+%}
+
+ROOT -> rule0 
+{% ([ rule0 ]) => {
+    return {
+        
+        
+    };
+}
+%}
+
+
+
+rule0 -> "Name of the person to greet: " 
+
+
+rule1 -> String {% id %} # name 
+
+
+rule2 -> ".\nThank you!" 
+
+
+MyRequest -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyRequest",
+        input : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+MyResponse -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyResponse",
+        output : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+HelloWorldClause -> String  __  String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        name : data[0],
+        clauseId : data[2]
+    };
+}
+%}
+
+
+AccordContractState -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordContractState",
+        stateId : data[0]
+    };
+}
+%}
+
+
+AccordParty -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordParty",
+        partyId : data[0]
+    };
+}
+%}
+
+
+Request -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Request",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+Response -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Response",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+PaymentObligation -> MonetaryAmount  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.PaymentObligation",
+        amount : data[0],
+        description : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+NotificationObligation -> String  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.NotificationObligation",
+        title : data[0],
+        message : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+Payload -> AccordContract  __  Request  __  AccordContractState:? 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Payload",
+        contract : data[0],
+        request : data[2],
+        state : data[4]
+    };
+}
+%}
+
+
+Success -> Response  __  AccordContractState  __  Event:+ 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Success",
+        response : data[0],
+        state : data[2],
+        emit : data[4]
+    };
+}
+%}
+
+
+Failure -> ErrorResponse 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Failure",
+        error : data[0]
+    };
+}
+%}
+
+
+MonetaryAmount -> Double  __  CurrencyCode 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.money.MonetaryAmount",
+        doubleValue : data[0],
+        currencyCode : data[2]
+    };
+}
+%}
+
+
+CurrencyCode -> "AED" {% id %} | "AFN" {% id %} | "ALL" {% id %} | "AMD" {% id %} | "ANG" {% id %} | "AOA" {% id %} | "ARS" {% id %} | "AUD" {% id %} | "AWG" {% id %} | "AZN" {% id %} | "BAM" {% id %} | "BBD" {% id %} | "BDT" {% id %} | "BGN" {% id %} | "BHD" {% id %} | "BIF" {% id %} | "BMD" {% id %} | "BND" {% id %} | "BOB" {% id %} | "BOV" {% id %} | "BRL" {% id %} | "BSD" {% id %} | "BTN" {% id %} | "BWP" {% id %} | "BYN" {% id %} | "BZD" {% id %} | "CAD" {% id %} | "CDF" {% id %} | "CHE" {% id %} | "CHF" {% id %} | "CHW" {% id %} | "CLF" {% id %} | "CLP" {% id %} | "CNY" {% id %} | "COP" {% id %} | "COU" {% id %} | "CRC" {% id %} | "CUC" {% id %} | "CUP" {% id %} | "CVE" {% id %} | "CZK" {% id %} | "DJF" {% id %} | "DKK" {% id %} | "DOP" {% id %} | "DZD" {% id %} | "EGP" {% id %} | "ERN" {% id %} | "ETB" {% id %} | "EUR" {% id %} | "FJD" {% id %} | "FKP" {% id %} | "GBP" {% id %} | "GEL" {% id %} | "GHS" {% id %} | "GIP" {% id %} | "GMD" {% id %} | "GNF" {% id %} | "GTQ" {% id %} | "GYD" {% id %} | "HKD" {% id %} | "HNL" {% id %} | "HRK" {% id %} | "HTG" {% id %} | "HUF" {% id %} | "IDR" {% id %} | "ILS" {% id %} | "INR" {% id %} | "IQD" {% id %} | "IRR" {% id %} | "ISK" {% id %} | "JMD" {% id %} | "JOD" {% id %} | "JPY" {% id %} | "KES" {% id %} | "KGS" {% id %} | "KHR" {% id %} | "KMF" {% id %} | "KPW" {% id %} | "KRW" {% id %} | "KWD" {% id %} | "KYD" {% id %} | "KZT" {% id %} | "LAK" {% id %} | "LBP" {% id %} | "LKR" {% id %} | "LRD" {% id %} | "LSL" {% id %} | "LYD" {% id %} | "MAD" {% id %} | "MDL" {% id %} | "MGA" {% id %} | "MKD" {% id %} | "MMK" {% id %} | "MNT" {% id %} | "MOP" {% id %} | "MRU" {% id %} | "MUR" {% id %} | "MVR" {% id %} | "MWK" {% id %} | "MXN" {% id %} | "MXV" {% id %} | "MYR" {% id %} | "MZN" {% id %} | "NAD" {% id %} | "NGN" {% id %} | "NIO" {% id %} | "NOK" {% id %} | "NPR" {% id %} | "NZD" {% id %} | "OMR" {% id %} | "PAB" {% id %} | "PEN" {% id %} | "PGK" {% id %} | "PHP" {% id %} | "PKR" {% id %} | "PLN" {% id %} | "PYG" {% id %} | "QAR" {% id %} | "RON" {% id %} | "RSD" {% id %} | "RUB" {% id %} | "RWF" {% id %} | "SAR" {% id %} | "SBD" {% id %} | "SCR" {% id %} | "SDG" {% id %} | "SEK" {% id %} | "SGD" {% id %} | "SHP" {% id %} | "SLL" {% id %} | "SOS" {% id %} | "SRD" {% id %} | "SSP" {% id %} | "STN" {% id %} | "SVC" {% id %} | "SYP" {% id %} | "SZL" {% id %} | "THB" {% id %} | "TJS" {% id %} | "TMT" {% id %} | "TND" {% id %} | "TOP" {% id %} | "TRY" {% id %} | "TTD" {% id %} | "TWD" {% id %} | "TZS" {% id %} | "UAH" {% id %} | "UGX" {% id %} | "USD" {% id %} | "USN" {% id %} | "UYI" {% id %} | "UYU" {% id %} | "UZS" {% id %} | "VEF" {% id %} | "VND" {% id %} | "VUV" {% id %} | "WST" {% id %} | "XAF" {% id %} | "XAG" {% id %} | "XAU" {% id %} | "XBA" {% id %} | "XBB" {% id %} | "XBC" {% id %} | "XBD" {% id %} | "XCD" {% id %} | "XDR" {% id %} | "XOF" {% id %} | "XPD" {% id %} | "XPF" {% id %} | "XPT" {% id %} | "XSU" {% id %} | "XTS" {% id %} | "XUA" {% id %} | "XXX" {% id %} | "YER" {% id %} | "ZAR" {% id %} | "ZMW" {% id %} | "ZWL" {% id %} 
+
+
+
+# Basic types
+NUMBER -> [0-9] 
+{% (d) => {return parseInt(d[0]);}%}
+
+DOUBLE_NUMBER -> NUMBER NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+MONTH -> DOUBLE_NUMBER
+DAY -> DOUBLE_NUMBER
+YEAR -> DOUBLE_NUMBER DOUBLE_NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+DATE -> MONTH "/" DAY "/" YEAR
+{% (d) => {return '' + d[4] + '-' + d[0] + '-' + d[2]}%}
+
+Word -> [\S]:*
+{% (d) => {return d[0].join('');}%}
+
+BRACKET_PHRASE -> "[" Word (__ Word):* "]" {% ((d) => {return d[1] + ' ' + flatten(d[2]).join(" ");}) %}
+
+String -> dqstring {% id %}
+Double -> decimal {% id %}
+Integer -> int {% id %}
+Long -> int {% id %}
+Boolean -> "true" {% id %} | "false" {% id %}
+DateTime -> DATE  {% id %}
+12:20:14 - [34mdebug[39m: fromArchive
+12:20:14 - [34mdebug[39m: Result of parsing: {"$class":"org.accordproject.helloworld.HelloWorldClause","clauseId":"b064ec7b-0d95-4f05-bea6-b3330eff7a8d","name":"Fred Blogs"}
+12:20:14 - [34mdebug[39m: Setting clause data: {"$class":"org.accordproject.helloworld.HelloWorldClause","clauseId":"b064ec7b-0d95-4f05-bea6-b3330eff7a8d","name":"Fred Blogs"}
+10:14:22 - [34mdebug[39m: constructor
+10:14:22 - [34mdebug[39m: constructor
+10:14:22 - [34mdebug[39m: constructor
+10:14:22 - [34mdebug[39m: Loading archive at: https://templates.accordproject.org/archives/helloworld@0.2.1.cta
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:23 - [34mdebug[39m: constructor
+10:14:23 - [34mdebug[39m: constructor
+10:14:23 - [34mdebug[39m: fromArchive
+10:14:25 - [34mdebug[39m: fromArchive
+10:14:25 - [34mdebug[39m: fromArchive
+10:14:25 - [34mdebug[39m: fromArchive
+10:14:25 - [34mdebug[39m: fromArchive
+10:14:25 - [34mdebug[39m: buildGrammar
+10:14:25 - [34mdebug[39m: Template AST {"type":"ContractTemplate","data":[{"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1},{"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}},{"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}]}
+10:14:25 - [34mdebug[39m: element rule0 {"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1}
+10:14:25 - [34mdebug[39m: element rule1 {"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}}
+10:14:25 - [34mdebug[39m: element rule2 {"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}
+10:14:25 - [34mdebug[39m: Generated template grammar# Dynamically Generated
+@{%
+    function compact(v) {
+        if (Array.isArray(v)) {
+            return v.reduce((a, v) => (v === null || v === undefined || (v && v.length === 0) ) ? a : (a.push(v), a), []);
+        } else {
+            return v;
+        }
+    }
+
+    function flatten(v) {
+        let r;
+        if (Array.isArray(v)) {
+            r = v.reduce((a,v) => (a.push(...((v && Array.isArray(v)) ? flatten(v) : [v])), a), []);
+        } else {
+            r = v;
+        }
+        r = compact(r);
+        return r;
+        }
+%}
+
+
+rule -> rule0 rule1 rule2 
+{% ([ rule0,rule1,rule2 ]) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        clauseId : "ffd9b9fc-1fc0-4963-a605-cab7ec4d3153",
+        name : rule1,
+    };
+}
+%}
+
+ROOT -> rule0 
+{% ([ rule0 ]) => {
+    return {
+        
+        
+    };
+}
+%}
+
+
+
+rule0 -> "Name of the person to greet: " 
+
+
+rule1 -> String {% id %} # name 
+
+
+rule2 -> ".\nThank you!" 
+
+
+MyRequest -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyRequest",
+        input : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+MyResponse -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyResponse",
+        output : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+HelloWorldClause -> String  __  String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        name : data[0],
+        clauseId : data[2]
+    };
+}
+%}
+
+
+AccordContractState -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordContractState",
+        stateId : data[0]
+    };
+}
+%}
+
+
+AccordParty -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordParty",
+        partyId : data[0]
+    };
+}
+%}
+
+
+Request -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Request",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+Response -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Response",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+PaymentObligation -> MonetaryAmount  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.PaymentObligation",
+        amount : data[0],
+        description : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+NotificationObligation -> String  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.NotificationObligation",
+        title : data[0],
+        message : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+Payload -> AccordContract  __  Request  __  AccordContractState:? 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Payload",
+        contract : data[0],
+        request : data[2],
+        state : data[4]
+    };
+}
+%}
+
+
+Success -> Response  __  AccordContractState  __  Event:+ 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Success",
+        response : data[0],
+        state : data[2],
+        emit : data[4]
+    };
+}
+%}
+
+
+Failure -> ErrorResponse 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Failure",
+        error : data[0]
+    };
+}
+%}
+
+
+CryptoMonetaryAmount -> Double  __  CryptoCurrencyCode 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.money.CryptoMonetaryAmount",
+        doubleValue : data[0],
+        cryptoCurrencyCode : data[2]
+    };
+}
+%}
+
+
+CryptoCurrencyCode -> "ADA" {% id %} | "BCH" {% id %} | "BTC" {% id %} | "DASH" {% id %} | "EOS" {% id %} | "ETC" {% id %} | "ETH" {% id %} | "LTC" {% id %} | "NEO" {% id %} | "XLM" {% id %} | "XMR" {% id %} | "XRP" {% id %} | "ZEC" {% id %} 
+
+
+MonetaryAmount -> Double  __  CurrencyCode 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.money.MonetaryAmount",
+        doubleValue : data[0],
+        currencyCode : data[2]
+    };
+}
+%}
+
+
+CurrencyCode -> "AED" {% id %} | "AFN" {% id %} | "ALL" {% id %} | "AMD" {% id %} | "ANG" {% id %} | "AOA" {% id %} | "ARS" {% id %} | "AUD" {% id %} | "AWG" {% id %} | "AZN" {% id %} | "BAM" {% id %} | "BBD" {% id %} | "BDT" {% id %} | "BGN" {% id %} | "BHD" {% id %} | "BIF" {% id %} | "BMD" {% id %} | "BND" {% id %} | "BOB" {% id %} | "BOV" {% id %} | "BRL" {% id %} | "BSD" {% id %} | "BTN" {% id %} | "BWP" {% id %} | "BYN" {% id %} | "BZD" {% id %} | "CAD" {% id %} | "CDF" {% id %} | "CHE" {% id %} | "CHF" {% id %} | "CHW" {% id %} | "CLF" {% id %} | "CLP" {% id %} | "CNY" {% id %} | "COP" {% id %} | "COU" {% id %} | "CRC" {% id %} | "CUC" {% id %} | "CUP" {% id %} | "CVE" {% id %} | "CZK" {% id %} | "DJF" {% id %} | "DKK" {% id %} | "DOP" {% id %} | "DZD" {% id %} | "EGP" {% id %} | "ERN" {% id %} | "ETB" {% id %} | "EUR" {% id %} | "FJD" {% id %} | "FKP" {% id %} | "GBP" {% id %} | "GEL" {% id %} | "GHS" {% id %} | "GIP" {% id %} | "GMD" {% id %} | "GNF" {% id %} | "GTQ" {% id %} | "GYD" {% id %} | "HKD" {% id %} | "HNL" {% id %} | "HRK" {% id %} | "HTG" {% id %} | "HUF" {% id %} | "IDR" {% id %} | "ILS" {% id %} | "INR" {% id %} | "IQD" {% id %} | "IRR" {% id %} | "ISK" {% id %} | "JMD" {% id %} | "JOD" {% id %} | "JPY" {% id %} | "KES" {% id %} | "KGS" {% id %} | "KHR" {% id %} | "KMF" {% id %} | "KPW" {% id %} | "KRW" {% id %} | "KWD" {% id %} | "KYD" {% id %} | "KZT" {% id %} | "LAK" {% id %} | "LBP" {% id %} | "LKR" {% id %} | "LRD" {% id %} | "LSL" {% id %} | "LYD" {% id %} | "MAD" {% id %} | "MDL" {% id %} | "MGA" {% id %} | "MKD" {% id %} | "MMK" {% id %} | "MNT" {% id %} | "MOP" {% id %} | "MRU" {% id %} | "MUR" {% id %} | "MVR" {% id %} | "MWK" {% id %} | "MXN" {% id %} | "MXV" {% id %} | "MYR" {% id %} | "MZN" {% id %} | "NAD" {% id %} | "NGN" {% id %} | "NIO" {% id %} | "NOK" {% id %} | "NPR" {% id %} | "NZD" {% id %} | "OMR" {% id %} | "PAB" {% id %} | "PEN" {% id %} | "PGK" {% id %} | "PHP" {% id %} | "PKR" {% id %} | "PLN" {% id %} | "PYG" {% id %} | "QAR" {% id %} | "RON" {% id %} | "RSD" {% id %} | "RUB" {% id %} | "RWF" {% id %} | "SAR" {% id %} | "SBD" {% id %} | "SCR" {% id %} | "SDG" {% id %} | "SEK" {% id %} | "SGD" {% id %} | "SHP" {% id %} | "SLL" {% id %} | "SOS" {% id %} | "SRD" {% id %} | "SSP" {% id %} | "STN" {% id %} | "SVC" {% id %} | "SYP" {% id %} | "SZL" {% id %} | "THB" {% id %} | "TJS" {% id %} | "TMT" {% id %} | "TND" {% id %} | "TOP" {% id %} | "TRY" {% id %} | "TTD" {% id %} | "TWD" {% id %} | "TZS" {% id %} | "UAH" {% id %} | "UGX" {% id %} | "USD" {% id %} | "USN" {% id %} | "UYI" {% id %} | "UYU" {% id %} | "UZS" {% id %} | "VEF" {% id %} | "VND" {% id %} | "VUV" {% id %} | "WST" {% id %} | "XAF" {% id %} | "XAG" {% id %} | "XAU" {% id %} | "XBA" {% id %} | "XBB" {% id %} | "XBC" {% id %} | "XBD" {% id %} | "XCD" {% id %} | "XDR" {% id %} | "XOF" {% id %} | "XPD" {% id %} | "XPF" {% id %} | "XPT" {% id %} | "XSU" {% id %} | "XTS" {% id %} | "XUA" {% id %} | "XXX" {% id %} | "YER" {% id %} | "ZAR" {% id %} | "ZMW" {% id %} | "ZWL" {% id %} 
+
+
+
+# Basic types
+NUMBER -> [0-9] 
+{% (d) => {return parseInt(d[0]);}%}
+
+DOUBLE_NUMBER -> NUMBER NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+MONTH -> DOUBLE_NUMBER
+DAY -> DOUBLE_NUMBER
+YEAR -> DOUBLE_NUMBER DOUBLE_NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+DATE -> MONTH "/" DAY "/" YEAR
+{% (d) => {return '' + d[4] + '-' + d[0] + '-' + d[2]}%}
+
+Word -> [\S]:*
+{% (d) => {return d[0].join('');}%}
+
+BRACKET_PHRASE -> "[" Word (__ Word):* "]" {% ((d) => {return d[1] + ' ' + flatten(d[2]).join(" ");}) %}
+
+String -> dqstring {% id %}
+Double -> decimal {% id %}
+Integer -> int {% id %}
+Long -> int {% id %}
+Boolean -> "true" {% id %} | "false" {% id %}
+DateTime -> DATE  {% id %}
+
+# https://github.com/kach/nearley/blob/master/builtin/number.ne
+unsigned_int -> [0-9]:+ {%
+    function(d) {
+        return parseInt(d[0].join(""));
+    }
+%}
+
+int -> ("-"|"+"):? [0-9]:+ {%
+    function(d) {
+        if (d[0]) {
+            return parseInt(d[0][0]+d[1].join(""));
+        } else {
+            return parseInt(d[1].join(""));
+        }
+    }
+%}
+
+unsigned_decimal -> [0-9]:+ ("." [0-9]:+):? {%
+    function(d) {
+        return parseFloat(
+            d[0].join("") +
+            (d[1] ? "."+d[1][1].join("") : "")
+        );
+    }
+%}
+
+decimal -> "-":? [0-9]:+ ("." [0-9]:+):? {%
+    function(d) {
+        return parseFloat(
+            (d[0] || "") +
+            d[1].join("") +
+            (d[2] ? "."+d[2][1].join("") : "")
+        );
+    }
+%}
+
+percentage -> decimal "%" {%
+    function(d) {
+        return d[0]/100;
+    }
+%}
+
+jsonfloat -> "-":? [0-9]:+ ("." [0-9]:+):? ([eE] [+-]:? [0-9]:+):? {%
+    function(d) {
+        return parseFloat(
+            (d[0] || "") +
+            d[1].join("") +
+            (d[2] ? "."+d[2][1].join("") : "") +
+            (d[3] ? "e" + (d[3][1] || "+") + d[3][2].join("") : "")
+        );
+    }
+%}
+
+# From https://github.com/kach/nearley/blob/master/builtin/string.ne
+# Matches various kinds of string literals
+
+# Double-quoted string
+dqstring -> "\"" dstrchar:* "\"" {% function(d) {return d[1].join(""); } %}
+sqstring -> "'"  sstrchar:* "'"  {% function(d) {return d[1].join(""); } %}
+btstring -> "`"  [^`]:*    "`"  {% function(d) {return d[1].join(""); } %}
+
+dstrchar -> [^\\"\n] {% id %}
+    | "\\" strescape {%
+    function(d) {
+        return JSON.parse("\""+d.join("")+"\"");
+    }
+%}
+
+sstrchar -> [^\\'\n] {% id %}
+    | "\\" strescape
+        {% function(d) { return JSON.parse("\""+d.join("")+"\""); } %}
+    | "\\'"
+        {% function(d) {return "'"; } %}
+
+strescape -> ["\\/bfnrt] {% id %}
+    | "u" [a-fA-F0-9] [a-fA-F0-9] [a-fA-F0-9] [a-fA-F0-9] {%
+    function(d) {
+        return d.join("");
+    }
+%}
+
+# From https://github.com/kach/nearley/blob/master/builtin/whitespace.ne
+# Whitespace: `_` is optional, `__` is mandatory.
+_  -> wschar:* {% function(d) {return null;} %}
+__ -> wschar:+ {% function(d) {return null;} %}
+
+wschar -> [ \t\n\v\f] {% id %}
+10:14:25 - [34mdebug[39m: fromArchive
+10:14:25 - [34mdebug[39m: Result of parsing: {"$class":"org.accordproject.helloworld.HelloWorldClause","clauseId":"ffd9b9fc-1fc0-4963-a605-cab7ec4d3153","name":"Fred Blogs"}
+10:14:25 - [34mdebug[39m: Setting clause data: {"$class":"org.accordproject.helloworld.HelloWorldClause","clauseId":"ffd9b9fc-1fc0-4963-a605-cab7ec4d3153","name":"Fred Blogs"}
+10:14:52 - [34mdebug[39m: constructor
+10:14:52 - [34mdebug[39m: constructor
+10:14:52 - [34mdebug[39m: constructor
+10:14:52 - [34mdebug[39m: Loading archive at: https://templates.accordproject.org/archives/helloworld@0.2.1.cta
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:52 - [34mdebug[39m: constructor
+10:14:52 - [34mdebug[39m: constructor
+10:14:52 - [34mdebug[39m: fromArchive
+10:14:53 - [34mdebug[39m: fromArchive
+10:14:53 - [34mdebug[39m: fromArchive
+10:14:53 - [34mdebug[39m: fromArchive
+10:14:53 - [34mdebug[39m: fromArchive
+10:14:53 - [34mdebug[39m: buildGrammar
+10:14:53 - [34mdebug[39m: Template AST {"type":"ContractTemplate","data":[{"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1},{"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}},{"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}]}
+10:14:53 - [34mdebug[39m: element rule0 {"type":"Chunk","value":"Name of the person to greet: ","text":"Name of the person to greet: [{","offset":0,"lineBreaks":0,"line":1,"col":1}
+10:14:53 - [34mdebug[39m: element rule1 {"type":"Binding","fieldName":{"type":"varid","value":"name","text":"name","offset":31,"lineBreaks":0,"line":1,"col":32}}
+10:14:53 - [34mdebug[39m: element rule2 {"type":"LastChunk","value":".\nThank you!","text":".\nThank you!","offset":37,"lineBreaks":1,"line":1,"col":38}
+10:14:53 - [34mdebug[39m: Generated template grammar# Dynamically Generated
+@{%
+    function compact(v) {
+        if (Array.isArray(v)) {
+            return v.reduce((a, v) => (v === null || v === undefined || (v && v.length === 0) ) ? a : (a.push(v), a), []);
+        } else {
+            return v;
+        }
+    }
+
+    function flatten(v) {
+        let r;
+        if (Array.isArray(v)) {
+            r = v.reduce((a,v) => (a.push(...((v && Array.isArray(v)) ? flatten(v) : [v])), a), []);
+        } else {
+            r = v;
+        }
+        r = compact(r);
+        return r;
+        }
+%}
+
+
+rule -> rule0 rule1 rule2 
+{% ([ rule0,rule1,rule2 ]) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        clauseId : "0ca36117-9d6b-4fc4-bf2c-be84ac0d4dfe",
+        name : rule1,
+    };
+}
+%}
+
+ROOT -> rule0 
+{% ([ rule0 ]) => {
+    return {
+        
+        
+    };
+}
+%}
+
+
+
+rule0 -> "Name of the person to greet: " 
+
+
+rule1 -> String {% id %} # name 
+
+
+rule2 -> ".\nThank you!" 
+
+
+MyRequest -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyRequest",
+        input : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+MyResponse -> String  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.MyResponse",
+        output : data[0],
+        transactionId : data[2],
+        timestamp : data[4]
+    };
+}
+%}
+
+
+HelloWorldClause -> String  __  String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.helloworld.HelloWorldClause",
+        name : data[0],
+        clauseId : data[2]
+    };
+}
+%}
+
+
+AccordContractState -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordContractState",
+        stateId : data[0]
+    };
+}
+%}
+
+
+AccordParty -> String 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.contract.AccordParty",
+        partyId : data[0]
+    };
+}
+%}
+
+
+Request -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Request",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+Response -> String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Response",
+        transactionId : data[0],
+        timestamp : data[2]
+    };
+}
+%}
+
+
+PaymentObligation -> MonetaryAmount  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.PaymentObligation",
+        amount : data[0],
+        description : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+NotificationObligation -> String  __  String  __  String  __  String  __  String  __  DateTime:?  __  String  __  DateTime 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.NotificationObligation",
+        title : data[0],
+        message : data[2],
+        contract : data[4],
+        promisor : data[6],
+        promisee : data[8],
+        deadline : data[10],
+        eventId : data[12],
+        timestamp : data[14]
+    };
+}
+%}
+
+
+Payload -> AccordContract  __  Request  __  AccordContractState:? 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Payload",
+        contract : data[0],
+        request : data[2],
+        state : data[4]
+    };
+}
+%}
+
+
+Success -> Response  __  AccordContractState  __  Event:+ 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Success",
+        response : data[0],
+        state : data[2],
+        emit : data[4]
+    };
+}
+%}
+
+
+Failure -> ErrorResponse 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.cicero.runtime.Failure",
+        error : data[0]
+    };
+}
+%}
+
+
+CryptoMonetaryAmount -> Double  __  CryptoCurrencyCode 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.money.CryptoMonetaryAmount",
+        doubleValue : data[0],
+        cryptoCurrencyCode : data[2]
+    };
+}
+%}
+
+
+CryptoCurrencyCode -> "ADA" {% id %} | "BCH" {% id %} | "BTC" {% id %} | "DASH" {% id %} | "EOS" {% id %} | "ETC" {% id %} | "ETH" {% id %} | "LTC" {% id %} | "NEO" {% id %} | "XLM" {% id %} | "XMR" {% id %} | "XRP" {% id %} | "ZEC" {% id %} 
+
+
+MonetaryAmount -> Double  __  CurrencyCode 
+
+{% ( data ) => {
+    return {
+        $class: "org.accordproject.money.MonetaryAmount",
+        doubleValue : data[0],
+        currencyCode : data[2]
+    };
+}
+%}
+
+
+CurrencyCode -> "AED" {% id %} | "AFN" {% id %} | "ALL" {% id %} | "AMD" {% id %} | "ANG" {% id %} | "AOA" {% id %} | "ARS" {% id %} | "AUD" {% id %} | "AWG" {% id %} | "AZN" {% id %} | "BAM" {% id %} | "BBD" {% id %} | "BDT" {% id %} | "BGN" {% id %} | "BHD" {% id %} | "BIF" {% id %} | "BMD" {% id %} | "BND" {% id %} | "BOB" {% id %} | "BOV" {% id %} | "BRL" {% id %} | "BSD" {% id %} | "BTN" {% id %} | "BWP" {% id %} | "BYN" {% id %} | "BZD" {% id %} | "CAD" {% id %} | "CDF" {% id %} | "CHE" {% id %} | "CHF" {% id %} | "CHW" {% id %} | "CLF" {% id %} | "CLP" {% id %} | "CNY" {% id %} | "COP" {% id %} | "COU" {% id %} | "CRC" {% id %} | "CUC" {% id %} | "CUP" {% id %} | "CVE" {% id %} | "CZK" {% id %} | "DJF" {% id %} | "DKK" {% id %} | "DOP" {% id %} | "DZD" {% id %} | "EGP" {% id %} | "ERN" {% id %} | "ETB" {% id %} | "EUR" {% id %} | "FJD" {% id %} | "FKP" {% id %} | "GBP" {% id %} | "GEL" {% id %} | "GHS" {% id %} | "GIP" {% id %} | "GMD" {% id %} | "GNF" {% id %} | "GTQ" {% id %} | "GYD" {% id %} | "HKD" {% id %} | "HNL" {% id %} | "HRK" {% id %} | "HTG" {% id %} | "HUF" {% id %} | "IDR" {% id %} | "ILS" {% id %} | "INR" {% id %} | "IQD" {% id %} | "IRR" {% id %} | "ISK" {% id %} | "JMD" {% id %} | "JOD" {% id %} | "JPY" {% id %} | "KES" {% id %} | "KGS" {% id %} | "KHR" {% id %} | "KMF" {% id %} | "KPW" {% id %} | "KRW" {% id %} | "KWD" {% id %} | "KYD" {% id %} | "KZT" {% id %} | "LAK" {% id %} | "LBP" {% id %} | "LKR" {% id %} | "LRD" {% id %} | "LSL" {% id %} | "LYD" {% id %} | "MAD" {% id %} | "MDL" {% id %} | "MGA" {% id %} | "MKD" {% id %} | "MMK" {% id %} | "MNT" {% id %} | "MOP" {% id %} | "MRU" {% id %} | "MUR" {% id %} | "MVR" {% id %} | "MWK" {% id %} | "MXN" {% id %} | "MXV" {% id %} | "MYR" {% id %} | "MZN" {% id %} | "NAD" {% id %} | "NGN" {% id %} | "NIO" {% id %} | "NOK" {% id %} | "NPR" {% id %} | "NZD" {% id %} | "OMR" {% id %} | "PAB" {% id %} | "PEN" {% id %} | "PGK" {% id %} | "PHP" {% id %} | "PKR" {% id %} | "PLN" {% id %} | "PYG" {% id %} | "QAR" {% id %} | "RON" {% id %} | "RSD" {% id %} | "RUB" {% id %} | "RWF" {% id %} | "SAR" {% id %} | "SBD" {% id %} | "SCR" {% id %} | "SDG" {% id %} | "SEK" {% id %} | "SGD" {% id %} | "SHP" {% id %} | "SLL" {% id %} | "SOS" {% id %} | "SRD" {% id %} | "SSP" {% id %} | "STN" {% id %} | "SVC" {% id %} | "SYP" {% id %} | "SZL" {% id %} | "THB" {% id %} | "TJS" {% id %} | "TMT" {% id %} | "TND" {% id %} | "TOP" {% id %} | "TRY" {% id %} | "TTD" {% id %} | "TWD" {% id %} | "TZS" {% id %} | "UAH" {% id %} | "UGX" {% id %} | "USD" {% id %} | "USN" {% id %} | "UYI" {% id %} | "UYU" {% id %} | "UZS" {% id %} | "VEF" {% id %} | "VND" {% id %} | "VUV" {% id %} | "WST" {% id %} | "XAF" {% id %} | "XAG" {% id %} | "XAU" {% id %} | "XBA" {% id %} | "XBB" {% id %} | "XBC" {% id %} | "XBD" {% id %} | "XCD" {% id %} | "XDR" {% id %} | "XOF" {% id %} | "XPD" {% id %} | "XPF" {% id %} | "XPT" {% id %} | "XSU" {% id %} | "XTS" {% id %} | "XUA" {% id %} | "XXX" {% id %} | "YER" {% id %} | "ZAR" {% id %} | "ZMW" {% id %} | "ZWL" {% id %} 
+
+
+
+# Basic types
+NUMBER -> [0-9] 
+{% (d) => {return parseInt(d[0]);}%}
+
+DOUBLE_NUMBER -> NUMBER NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+MONTH -> DOUBLE_NUMBER
+DAY -> DOUBLE_NUMBER
+YEAR -> DOUBLE_NUMBER DOUBLE_NUMBER
+{% (d) => {return '' + d[0] + d[1]}%}
+
+DATE -> MONTH "/" DAY "/" YEAR
+{% (d) => {return '' + d[4] + '-' + d[0] + '-' + d[2]}%}
+
+Word -> [\S]:*
+{% (d) => {return d[0].join('');}%}
+
+BRACKET_PHRASE -> "[" Word (__ Word):* "]" {% ((d) => {return d[1] + ' ' + flatten(d[2]).join(" ");}) %}
+
+String -> dqstring {% id %}
+Double -> decimal {% id %}
+Integer -> int {% id %}
+Long -> int {% id %}
+Boolean -> "true" {% id %} | "false" {% id %}
+DateTime -> DATE  {% id %}
+
+# https://github.com/kach/nearley/blob/master/builtin/number.ne
+unsigned_int -> [0-9]:+ {%
+    function(d) {
+        return parseInt(d[0].join(""));
+    }
+%}
+
+int -> ("-"|"+"):? [0-9]:+ {%
+    function(d) {
+        if (d[0]) {
+            return parseInt(d[0][0]+d[1].join(""));
+        } else {
+            return parseInt(d[1].join(""));
+        }
+    }
+%}
+
+unsigned_decimal -> [0-9]:+ ("." [0-9]:+):? {%
+    function(d) {
+        return parseFloat(
+            d[0].join("") +
+            (d[1] ? "."+d[1][1].join("") : "")
+        );
+    }
+%}
+
+decimal -> "-":? [0-9]:+ ("." [0-9]:+):? {%
+    function(d) {
+        return parseFloat(
+            (d[0] || "") +
+            d[1].join("") +
+            (d[2] ? "."+d[2][1].join("") : "")
+        );
+    }
+%}
+
+percentage -> decimal "%" {%
+    function(d) {
+        return d[0]/100;
+    }
+%}
+
+jsonfloat -> "-":? [0-9]:+ ("." [0-9]:+):? ([eE] [+-]:? [0-9]:+):? {%
+    function(d) {
+        return parseFloat(
+            (d[0] || "") +
+            d[1].join("") +
+            (d[2] ? "."+d[2][1].join("") : "") +
+            (d[3] ? "e" + (d[3][1] || "+") + d[3][2].join("") : "")
+        );
+    }
+%}
+
+# From https://github.com/kach/nearley/blob/master/builtin/string.ne
+# Matches various kinds of string literals
+
+# Double-quoted string
+dqstring -> "\"" dstrchar:* "\"" {% function(d) {return d[1].join(""); } %}
+sqstring -> "'"  sstrchar:* "'"  {% function(d) {return d[1].join(""); } %}
+btstring -> "`"  [^`]:*    "`"  {% function(d) {return d[1].join(""); } %}
+
+dstrchar -> [^\\"\n] {% id %}
+    | "\\" strescape {%
+    function(d) {
+        return JSON.parse("\""+d.join("")+"\"");
+    }
+%}
+
+sstrchar -> [^\\'\n] {% id %}
+    | "\\" strescape
+        {% function(d) { return JSON.parse("\""+d.join("")+"\""); } %}
+    | "\\'"
+        {% function(d) {return "'"; } %}
+
+strescape -> ["\\/bfnrt] {% id %}
+    | "u" [a-fA-F0-9] [a-fA-F0-9] [a-fA-F0-9] [a-fA-F0-9] {%
+    function(d) {
+        return d.join("");
+    }
+%}
+
+# From https://github.com/kach/nearley/blob/master/builtin/whitespace.ne
+# Whitespace: `_` is optional, `__` is mandatory.
+_  -> wschar:* {% function(d) {return null;} %}
+__ -> wschar:+ {% function(d) {return null;} %}
+
+wschar -> [ \t\n\v\f] {% id %}
+10:14:53 - [34mdebug[39m: fromArchive
+10:14:53 - [34mdebug[39m: Result of parsing: {"$class":"org.accordproject.helloworld.HelloWorldClause","clauseId":"0ca36117-9d6b-4fc4-bf2c-be84ac0d4dfe","name":"Fred Blogs"}
+10:14:53 - [34mdebug[39m: Setting clause data: {"$class":"org.accordproject.helloworld.HelloWorldClause","clauseId":"0ca36117-9d6b-4fc4-bf2c-be84ac0d4dfe","name":"Fred Blogs"}
