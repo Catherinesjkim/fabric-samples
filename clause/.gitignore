@@ -1,3 +1,6 @@
 /node_modules/
 /package-lock.json
-/hfc-key-store/
+/hfc-cvs/
+/hfc-kvs/
+hfc-key-store/
+.ibp/
