@@ -1,0 +1,104 @@
+# Hyperledger Fabric Client for Cicero Chaincode
+
+This sample shows how you can deploy and execute Smart Legal Contracts on-chain using Hyperledger Fabric v1.3.
+
+Using this client you can deploy a [Smart Legal Contract Templates](https://templates.accordproject.org) from the Open Source [Accord Project](https://accordproject.org) to your HLF v1.3 blockchain. You can then submit transactions to the Smart Legal Contract, with the contract state persisted to the blockchain, and return values and emitted events propagated back to the client.
+
+The chaincode itself is under the `chaincode` directory of this repository, here: https://github.com/accordproject/fabric-samples/blob/release-1.1/chaincode/cicero/node/cicero.js
+
+## Install
+
+To get started you need to `git clone` or download this fork of the official Hyperledger Fabric samples repository. A Cicero client and chaincode sample have been added.
+
+You will need up to date versions of `git` and `node` for this sample to work. The sample has only been tested on Mac OS X. Pull requests welcome for other platforms.
+
+## Running
+
+```
+./startFabric node
+```
+
+Wait for 2-3 minutes while HLF starts. Next install the npm dependencies for the client code:
+
+```
+npm install
+```
+
+You can then enroll the administrator into the network:
+
+```
+node enrollAdmin.js
+```
+
+And then register a user:
+
+```
+node registerUser.js
+```
+
+Next we deploy a Cicero Smart Legal Contract by invoking the `deploySmartLegalContract` chaincode function. 
+The HelloWorld template is downloaded from https://templates.accordproject.org and then stored in the blockchain along 
+with the contract text and the initial state of the contract.
+
+```
+node deploy.js
+```
+
+You should see output similar to this:
+
+```
+$ node deploy.js 
+Store path:/Users/dselman/dev/fabric-samples-clause/cicero/hfc-key-store
+(node:32745) DeprecationWarning: grpc.load: Use the @grpc/proto-loader module with grpc.loadPackageDefinition instead
+Successfully loaded user1 from persistence
+Assigning transaction_id:  98f1ea1dc6abb8a5934690d82d24593e791d217911da259565af70e2707e1a18
+Transaction proposal was good
+Response payload: Successfully deployed contract MYCONTRACT based on helloworld@0.6.0
+Successfully sent Proposal and received ProposalResponse: Status - 200, message - ""
+The transaction has been committed on peer localhost:7051
+Send transaction promise and event listener promise have completed
+Successfully sent transaction to the orderer.
+Successfully committed the change to the ledger by the peer
+```
+
+The interesting part is: `Response payload: Successfully deployed contract MYCONTRACT based on helloworld@0.6.0` !
+
+Finally we submit a transaction to HLF, the chaincode loads the template from the blockchain (including its logic), validates the incoming transaction against the data model (schema) and then executes the contract. The return value from the contract is returned to the client and any events emitted by the contract are pushed onto the HLF event bus for asynchronous delivery to connected clients. Finally the potentially updated state of the contract is persisted back to the ledger.
+
+```
+node execute.js
+```
+
+You should see output similar to this:
+
+```
+$ node execute.js 
+Store path:/Users/dselman/dev/fabric-samples-clause/cicero/hfc-key-store
+(node:32749) DeprecationWarning: grpc.load: Use the @grpc/proto-loader module with grpc.loadPackageDefinition instead
+Successfully loaded user1 from persistence
+Assigning transaction_id:  74a1f82d4ae1f98658cf4ff20d5b0de1d23341f9e28dca192a8d689bfcaf39e5
+Request: {
+    "$class": "org.accordproject.helloworld.MyRequest",
+    "input": "Accord Project"
+}
+Transaction proposal was good
+Response payload: {
+    "$class": "org.accordproject.helloworld.MyResponse",
+    "output": "Hello Fred Blogs Accord Project",
+    "transactionId": "4257ace5-5334-41db-8c01-a8f9505f4088",
+    "timestamp": "2018-10-21T16:29:01.598Z"
+}
+Successfully sent Proposal and received ProposalResponse: Status - 200, message - ""
+The transaction has been committed on peer localhost:7051
+Send transaction promise and event listener promise have completed
+Successfully sent transaction to the orderer.
+Successfully committed the change to the ledger by the peer
+```
+
+The reponse payload shows that the logic of the template has run, combining data from the request with data from the template parameters.
+
+## Editing Chaincode
+
+If you would like to make changes to the cicero chaincode be aware that Docker caches the docker image for the chaincode. If you edit the source and run `./startFabric` you will *not* see your changes.
+
+For your code changes to take effect you need to `docker stop` the peer (use `docker ps` to get the container id) and then `docker rmi -f` your docker chaincode image. The image name should look something like `dev-peer0.org1.example.com-cicero-1.0-598263b3afa0267a29243ec2ab8d19b7d2016ac628f13641ed1822c4241c5734`.
