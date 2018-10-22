@@ -1,0 +1,17 @@
+namespace io.clause
+
+enum Gender {
+  o MALE
+  o FEMALE
+  o OTHER
+}
+
+asset Employee identified by email {
+  o String email
+  o String firstName
+  o String lastName
+  o String middleName optional
+  o Gender gender
+  o DateTime startDate
+  o DateTime terminationDate optional
+}
