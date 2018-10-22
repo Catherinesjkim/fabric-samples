@@ -1,6 +1,6 @@
 # Hyperledger Fabric Client for Concerto Chaincode
 
-This sample shows how you can use Concerto from within Hyperledger Fabric v1.3 Node.js chaincode.
+This sample shows how you can use [Concerto](https://github.com/hyperledger/composer-concerto) from within Hyperledger Fabric v1.3 Node.js chaincode.
 
 The chaincode itself is under the `chaincode` directory of this repository.
 
