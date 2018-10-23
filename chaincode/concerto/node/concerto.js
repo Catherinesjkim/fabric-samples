@@ -146,6 +146,27 @@ var Chaincode = class {
     return Buffer.from(`Successfully put instance ${instance.getFullyQualifiedIdentifier()}`);
   }
 
+   /**
+   * Gets all the definitions for all the model files that have been added
+   * @param {*} stub the HLF stub
+   * @param {Array} args function arguments
+   */
+  async getModelFiles(stub, args) {
+    if (args.length != 0) {
+      throw new Error('Incorrect number of arguments. Expecting 0.');
+    }
+
+    const modelManager = await getModelManager(stub);
+    const modelDefinitions = modelManager.getModelFiles()
+      .filter((modelFile) => {
+          return !modelFile.isSystemModelFile();
+      }).map((modelFile) => {
+        return modelFile.getDefinitions()
+      });
+
+    return Buffer.from(JSON.stringify(modelDefinitions));
+  }
+
   /**
    * Get an instance
    * @param {*} stub the HLF stub

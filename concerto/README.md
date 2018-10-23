@@ -34,6 +34,8 @@ And then register a user:
 node registerUser.js
 ```
 
+### Deploy Models
+
 Next we deploy the Concerto model in `models/domain.cto` to Fabric:
 
 ```
@@ -59,7 +61,9 @@ Successfully committed the change to the ledger by the peer
 
 The interesting part is: `Response payload: Successfully added model namespace io.clause`. This shows that the domain model was validated by the chaincode and stored.
 
-Finally we submit a transaction to store an instance of the domain model in Fabric:
+### Creating an Instance
+
+We submit a transaction to store an instance of the domain model in Fabric:
 
 ```
 node invoke.js
@@ -83,6 +87,8 @@ Successfully committed the change to the ledger by the peer
 ```
 
 The reponse payload shows that the instances was stored.
+
+### Trying to Create an Invalid Instance
 
 Open up invoke.js and remove the `firstName` attribute so it looks like this:
 
@@ -167,6 +173,8 @@ asset Employee identified by email {
 2018-10-22T18:10:44.570Z ERROR [lib/handler.js] [mychannel-87082137]Calling chaincode Invoke() returned error response [ValidationException: Instance io.clause.Employee#bob@clause.io missing required field firstName]. Sending ERROR message back to peer 
 ```
 
+### Retrieving an Instance
+
 If you modify `invoke.js` to use the `getRequest` instead of `putRequest` you can retrieve the previously stored (valid) instance by running `node invoke.js`:
 
 ```
@@ -182,6 +190,19 @@ The transaction has been committed on peer localhost:7051
 Send transaction promise and event listener promise have completed
 Successfully sent transaction to the orderer.
 Successfully committed the change to the ledger by the peer
+```
+
+### Retrieving Models
+
+You can run `query.js` to retrieve all the deployed models from the blockchain.
+
+```
+$ node query.js 
+Store path:/Users/dselman/dev/fabric-samples-clause/concerto/hfc-key-store
+(node:38206) DeprecationWarning: grpc.load: Use the @grpc/proto-loader module with grpc.loadPackageDefinition instead
+Successfully loaded user1 from persistence
+Query has completed, checking results
+Response is  ["namespace io.clause\n\nenum Gender {\n  o MALE\n  o FEMALE\n  o OTHER\n}\n\nasset Employee identified by email {\n  o String email\n  o String firstName\n  o String lastName\n  o String middleName optional\n  o Gender gender\n  o DateTime startDate\n  o DateTime terminationDate optional\n}"]
 ```
 
 

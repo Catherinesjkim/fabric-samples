@@ -49,13 +49,11 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 		throw new Error('Failed to get user1.... run registerUser.js');
 	}
 
-	// queryCar chaincode function - requires 1 argument, ex: args: ['CAR4'],
-	// queryAllCars chaincode function - requires no arguments , ex: args: [''],
 	const request = {
 		//targets : --- letting this default to the peers assigned to the channel
 		chaincodeId: 'concerto',
-		fcn: 'queryAllCars',
-		args: ['']
+		fcn: 'getModelFiles',
+		args: []
 	};
 
 	// send the query proposal to the peer
