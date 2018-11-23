@@ -22,18 +22,6 @@ var fs = require('fs');
  
 const ModelManager = require('composer-concerto').ModelManager;
 
-const systemModel = `namespace io.clause.system
-abstract asset Asset {  }
-abstract participant Participant {   }
-abstract transaction Transaction identified by transactionId {
-  o String transactionId
-  o DateTime timestamp
-}
-abstract event Event identified by eventId {
-  o String eventId
-  o DateTime timestamp
-}`;
-
 //
 var fabric_client = new Fabric_Client();
 
@@ -80,7 +68,6 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 
 	// client side validation of the model file
 	const modelManager = new ModelManager();
-	modelManager.addModelFile(systemModel, 'io.clause.system.cto', false, true);
 	modelManager.addModelFile(contents, './models/domain.cto');
 
 	var request = {

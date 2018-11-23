@@ -12,27 +12,12 @@ const ModelUtil = require('composer-concerto').ModelUtil;
 const ModelFile = require('composer-concerto').ModelFile;
 const util = require('util');
 
-// declare our system model
-const systemModel = `namespace io.clause.system
-abstract asset Asset {  }
-abstract participant Participant {   }
-abstract transaction Transaction identified by transactionId {
-  o String transactionId
-  o DateTime timestamp
-}
-abstract event Event identified by eventId {
-  o String eventId
-  o DateTime timestamp
-}`;
-
 /**
  * Instantiates a ModelManager with all the deployed model files
  * @param {*} stub the HLF stub
  */
 async function getModelManager(stub) {
   const modelManager = new ModelManager();
-  modelManager.addModelFile(systemModel, 'io.clause.system.cto', false, true);
-
   const modelsIterator = await stub.getStateByPartialCompositeKey('ModelManager', []);
 
   while(true) {
