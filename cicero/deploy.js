@@ -65,8 +65,8 @@ Fabric_Client.newDefaultKeyValueStore({ path: store_path
 	console.log("Assigning transaction_id: ", tx_id._transaction_id);
 
 	const contractId = 'MYCONTRACT';
-	const template = await Template.fromUrl('ap://helloworld@0.6.0#e3db6367b30a83804525b27255d0e01b5f0474374faf8e3cc22ffae251487109');
-	const archive = await template.toArchive();
+	const template = await Template.fromUrl('ap://helloworld@0.7.1#8a19884b84379baf54a96d7261e3169d81b3e6f992cdb7d28e49a33dca307aae');
+	const archive = await template.toArchive('javascript');
 	const templateBase64 = archive.toString('base64');
 	const clauseText = 'Name of the person to greet: "Fred Blogs".\nThank you!';
 
