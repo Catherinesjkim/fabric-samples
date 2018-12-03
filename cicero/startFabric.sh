@@ -37,4 +37,4 @@ docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/opt/g
 
 printf "\nTotal setup execution time : $(($(date +%s) - starttime)) secs ...\n\n\n"
 printf "Start by installing required packages run \n\tnpm install\n"
-printf "Then run: \n\tnode enrollAdmin.js\n\tnode registerUser.js\n\tnode deploy.js\n"
+printf "Then run: \n\tnode enrollAdmin.js\n\tnode registerUser.js\n\tnode deploy.js helloworld.cta sample.txt\n\tnode submitRequest.js request.json\n"
