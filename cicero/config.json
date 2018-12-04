@@ -1,0 +1,13 @@
+{
+    "contractId": "MYCONTRACT",
+    "chaincodeId": "cicero",
+    "chainId": "mychannel",
+    "mspId": "Org1MSP",
+    "peerHost": "grpc://localhost:7051",
+    "ordererHost": "grpc://localhost:7050",
+    "caHost": "http://localhost:7054",
+    "caUrl": "ca.example.com",
+    "username": "user1",
+    "adminUsername": "admin",
+    "adminSecret": "adminpw"
+}

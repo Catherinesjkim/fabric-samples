@@ -41,19 +41,21 @@ The HelloWorld template is downloaded from https://templates.accordproject.org a
 with the contract text and the initial state of the contract.
 
 ```
-node deploy.js
+node deploy.js helloworld.cta sample.txt
 ```
+
+Where `sample.txt` is a file containing contract text that conforms to the template's grammar. See the template source for an example.
 
 You should see output similar to this:
 
 ```
-$ node deploy.js 
-Store path:/Users/dselman/dev/fabric-samples-clause/cicero/hfc-key-store
-(node:32745) DeprecationWarning: grpc.load: Use the @grpc/proto-loader module with grpc.loadPackageDefinition instead
+$ node deploy.js helloworld.cta sample.txt
+Store path:/Users/matt/dev/clauseHQ/fabric-samples/cicero/hfc-key-store
+(node:22481) DeprecationWarning: grpc.load: Use the @grpc/proto-loader module with grpc.loadPackageDefinition instead
 Successfully loaded user1 from persistence
-Assigning transaction_id:  98f1ea1dc6abb8a5934690d82d24593e791d217911da259565af70e2707e1a18
+Assigning transaction_id:  ea4fe684dc6573f1eeb9ed1996c652d98a46870a511213fa9f112dd3eecc76bf
 Transaction proposal was good
-Response payload: Successfully deployed contract MYCONTRACT based on helloworld@0.6.0
+Response payload: {"$class":"org.accordproject.cicero.runtime.Response","transactionId":"761df52f-2a0e-47f4-ad21-9be15bf82016","timestamp":"2018-12-03T16:38:40.115Z"}
 Successfully sent Proposal and received ProposalResponse: Status - 200, message - ""
 The transaction has been committed on peer localhost:7051
 Send transaction promise and event listener promise have completed
@@ -61,33 +63,24 @@ Successfully sent transaction to the orderer.
 Successfully committed the change to the ledger by the peer
 ```
 
-The interesting part is: `Response payload: Successfully deployed contract MYCONTRACT based on helloworld@0.6.0` !
-
 Finally we submit a transaction to HLF, the chaincode loads the template from the blockchain (including its logic), validates the incoming transaction against the data model (schema) and then executes the contract. The return value from the contract is returned to the client and any events emitted by the contract are pushed onto the HLF event bus for asynchronous delivery to connected clients. Finally the potentially updated state of the contract is persisted back to the ledger.
 
 ```
-node execute.js
+node submitRequest.js request.json
 ```
+
+Where `request.json` is an JSON instance of a request transaction, see the template source for an example.
 
 You should see output similar to this:
 
 ```
-$ node execute.js 
-Store path:/Users/dselman/dev/fabric-samples-clause/cicero/hfc-key-store
-(node:32749) DeprecationWarning: grpc.load: Use the @grpc/proto-loader module with grpc.loadPackageDefinition instead
+$ node submitRequest.js request.json
+Store path:/Users/matt/dev/clauseHQ/fabric-samples/cicero/hfc-key-store
+(node:22482) DeprecationWarning: grpc.load: Use the @grpc/proto-loader module with grpc.loadPackageDefinition instead
 Successfully loaded user1 from persistence
-Assigning transaction_id:  74a1f82d4ae1f98658cf4ff20d5b0de1d23341f9e28dca192a8d689bfcaf39e5
-Request: {
-    "$class": "org.accordproject.helloworld.MyRequest",
-    "input": "Accord Project"
-}
+Assigning transaction_id:  ecf5375e76c85224ae5ad27de04b2526e1b0699a3e72b8d22fc6101a8db02353
 Transaction proposal was good
-Response payload: {
-    "$class": "org.accordproject.helloworld.MyResponse",
-    "output": "Hello Fred Blogs Accord Project",
-    "transactionId": "4257ace5-5334-41db-8c01-a8f9505f4088",
-    "timestamp": "2018-10-21T16:29:01.598Z"
-}
+Response payload: {"$class":"org.accordproject.helloworld.MyResponse","output":"Hello Fred Blogs World","transactionId":"982b51f4-b945-4a71-be04-3e601a2d90a1","timestamp":"2018-12-03T16:38:53.104Z"}
 Successfully sent Proposal and received ProposalResponse: Status - 200, message - ""
 The transaction has been committed on peer localhost:7051
 Send transaction promise and event listener promise have completed
