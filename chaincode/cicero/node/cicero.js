@@ -75,8 +75,6 @@ class Chaincode {
    *   <li>templateData (base64 encoded string), a base-64 encoded Cicero template archive.
    *   <li>contractData (JSON string), the JSON object (as a string) that parameterizes the
    *      templates. Must be a valid instance of the template model for the contract.
-   *   <li>state (JSON string), the JSON object (as a string) for the initial state of the contract.
-   *      Must be a valid instance of the state model for the contract.
    * </ol>
    */
   async deploySmartLegalContract(stub, args) {

@@ -12,8 +12,8 @@
 	"engine-strict": true,
 	"license": "Apache-2.0",
 	"dependencies": {
-		"@accordproject/cicero-core": "^0.9.8",
-		"@accordproject/cicero-engine": "^0.9.8",
+		"@accordproject/cicero-core": "^0.10.0",
+		"@accordproject/cicero-engine": "^0.10.0",
 		"fabric-shim": "~1.3.0"
 	}
 }
