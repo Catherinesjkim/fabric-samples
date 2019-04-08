@@ -105,9 +105,7 @@ class Chaincode {
 
     // Initiate the template
     const engine = new Engine();
-    const result = await engine.init(clause, {
-      $class: 'org.accordproject.cicero.runtime.Request',
-    });
+    const result = await engine.init(clause);
     console.info(`Response from engine execute: ${JSON.stringify(result)}`);
 
     // save the state

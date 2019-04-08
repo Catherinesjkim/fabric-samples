@@ -25,7 +25,7 @@ const deploy = async () => {
   const samplePath = path.resolve(process.argv[3]);
 
   const template = await Template.fromArchive(fs.readFileSync(archivePath));
-  const archive = await template.toArchive('javascript');
+  const archive = await template.toArchive('cicero');
   const templateBase64 = archive.toString('base64');
   const clauseText = fs.readFileSync(samplePath, 'utf8');
 

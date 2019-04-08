@@ -110,7 +110,7 @@ const proposeAndCommitTransaction = tx => FabricClient.newDefaultKeyValueStore({
         const handle = setTimeout(() => {
           eventHub.unregisterTxEvent(transactionIdString);
           eventHub.disconnect();
-          resolve({ event_status: 'TIMEOUT' }); // we could use reject(new Error('Trnasaction did not complete within 30 seconds'));
+          resolve({ event_status: 'TIMEOUT' }); // we could use reject(new Error('Transaction did not complete within 30 seconds'));
         }, 30000);
         eventHub.registerTxEvent(transactionIdString,
           (_, code) => {
